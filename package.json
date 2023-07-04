@@ -1,0 +1,31 @@
+{
+  "name": "backendproject",
+  "version": "1.0.0",
+  "description": "backend project for Coder House",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gnigrinis/BackendProject.git"
+  },
+  "keywords": [
+    "Backend",
+    "JavaScript",
+    "Express",
+    "Node"
+  ],
+  "author": "Giancarlo Nigrinis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gnigrinis/BackendProject/issues"
+  },
+  "homepage": "https://github.com/gnigrinis/BackendProject#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

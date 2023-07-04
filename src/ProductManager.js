@@ -95,9 +95,9 @@ class ProductManager {
   }
 }
 
-// Pruebas
-;
 
+// Pruebas
+/*
 (async () => {
   try {
     //Se creará una instancia de la clase “ProductManager”
@@ -155,3 +155,5 @@ class ProductManager {
     console.log('Error:', error.message);
   }
 })();
+*/
+module.exports = ProductManager
