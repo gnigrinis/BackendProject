@@ -1,0 +1,183 @@
+[
+  {
+    "id": 1,
+    "title": "Camiseta",
+    "description": "Camiseta de algodón de manga corta",
+    "code": "1234",
+    "price": 19.99,
+    "status": true,
+    "stock": 50,
+    "category": [
+      "ropa",
+      "camiseta",
+      "algodón",
+      "manga corta"
+    ],
+    "thumbnails": [
+      "https://example.com/camiseta-thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Pantalones",
+    "description": "Pantalones vaqueros de corte recto",
+    "code": "5678",
+    "price": 39.99,
+    "status": true,
+    "stock": 30,
+    "category": [
+      "ropa",
+      "pantalones",
+      "vaqueros",
+      "corte recto"
+    ],
+    "thumbnails": [
+      "https://example.com/pantalones-thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Zapatos",
+    "description": "Zapatos de cuero negros",
+    "code": "9012",
+    "price": 79.99,
+    "status": true,
+    "stock": 20,
+    "category": [
+      "calzado",
+      "zapatos",
+      "cuero",
+      "negros"
+    ],
+    "thumbnails": [
+      "https://example.com/zapatos-thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Bolso",
+    "description": "Bolso de mano de diseño moderno",
+    "code": "3456",
+    "price": 49.99,
+    "status": true,
+    "stock": 15,
+    "category": [
+      "accesorio",
+      "bolso",
+      "mano",
+      "diseño moderno"
+    ],
+    "thumbnails": [
+      "https://example.com/bolso-thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Reloj",
+    "description": "Reloj de pulsera analógico con correa de acero",
+    "code": "7890",
+    "price": 99.99,
+    "status": true,
+    "stock": 10,
+    "category": [
+      "accesorio",
+      "reloj",
+      "pulsera",
+      "analógico",
+      "correa de acero"
+    ],
+    "thumbnails": [
+      "https://example.com/reloj-thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Gafas de sol",
+    "description": "Gafas de sol estilo aviador con lentes polarizadas",
+    "code": "1234",
+    "price": 29.99,
+    "status": true,
+    "stock": 25,
+    "category": [
+      "accesorio",
+      "gafas de sol",
+      "aviador",
+      "lentes polarizadas"
+    ],
+    "thumbnails": [
+      "https://example.com/gafas-thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Libro",
+    "description": "Novela de suspense escrita por un autor reconocido",
+    "code": "5678",
+    "price": 14.99,
+    "status": true,
+    "stock": 35,
+    "category": [
+      "libro",
+      "novela",
+      "suspense",
+      "autor reconocido"
+    ],
+    "thumbnails": [
+      "https://example.com/libro-thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Bicicleta",
+    "description": "Bicicleta de montaña con cuadro de aluminio",
+    "code": "9012",
+    "price": 299.99,
+    "status": true,
+    "stock": 5,
+    "category": [
+      "deporte",
+      "bicicleta",
+      "montaña",
+      "cuadro de aluminio"
+    ],
+    "thumbnails": [
+      "https://example.com/bicicleta-thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Cámara",
+    "description": "Cámara digital de alta resolución con función de grabación de vídeo",
+    "code": "3456",
+    "price": 199.99,
+    "status": true,
+    "stock": 8,
+    "category": [
+      "electrónica",
+      "cámara",
+      "alta resolución",
+      "grabación de vídeo"
+    ],
+    "thumbnails": [
+      "https://example.com/camara-thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Smartphone",
+    "description": "Teléfono inteligente con pantalla táctil y sistema operativo Android",
+    "code": "7890",
+    "price": 499.99,
+    "status": true,
+    "stock": 12,
+    "category": [
+      "electrónica",
+      "smartphone",
+      "pantalla táctil",
+      "sistema operativo Android"
+    ],
+    "thumbnails": [
+      "https://example.com/smartphone-thumbnail.jpg"
+    ]
+  }
+]
