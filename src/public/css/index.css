@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    min-height: 300px;
+    justify-content: center;
+    font-family: 'Ubuntu', sans-serif;
+    flex-wrap: wrap;
+}
+
+h1 {
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    margin: 10px;
+}
+
+.card {
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    height: auto;
+    width: 300px;
+    margin: 10px;
+}
+
+.card > figure {
+    width: 90%;
+    margin: 10px auto 0 auto;
+}
+
+.card > figure > img {
+    width: 100%;
+}
+
+.details {
+    background-color: #FFF;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+}
+
+
+.btn {
+    background-color: #192a56;
+    border-radius: 5px;
+    color: #FFF;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: capitalize;
+    width: 100%;
+    transition: box-shadow .3s ease-in-out,
+                transform .3s ease-in-out;
+}
+
+.btn:hover {
+  box-shadow: 0 5px 10px rgba(0,0,0,.3);
+  transform: translateY(-2px);
+}
+
+.formulario {
+  display: flex;
+  align-items: center;
+  min-height: 300px;
+  justify-content: center;
+  font-family: 'Ubuntu', sans-serif;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+form{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}

@@ -1,0 +1,48 @@
+<div>
+  <h1>¡Hola, {{user.name}}! ¡Qué gusto verte!</h1>
+  <h2>Web Socket</h2>
+  {{#if isAdmin}}
+    <div class="container">
+      {{#each products}}
+          <div class="card">
+            <figure>
+              <img src="{{this.thumbnails}}" alt="this.title"></img>
+            </figure>
+            <section class="details">
+              <div class="min-details">
+                <h1 class="title">{{this.title}}</h1>
+                <h1 class="price">{{this.price}}</h1>
+              </div>
+              <a href="#" class="btn">add to cart</a>
+            </section>
+          </div>
+      {{/each}}
+    </div>
+    <div class="formulario">
+      <h2>Agregar nuevo producto</h2>
+      <form id="new-product-form" method="POST" action="/realtimeproducts">
+        <input type="text" id="title" name="title" placeholder="Nombre del producto" required>
+        <input type="text" id="description" name="description" placeholder="Descripción del producto" required>
+        <input type="text" id="code" name="code" placeholder="Codigo del producto" required>
+        <input type="number" id="price" name="price" placeholder="Precio del producto" required>
+        <input type="number" id="stock" name="stock" placeholder="Cantidad" required>
+        <input type="text" id="category" name="category" placeholder="Categorías separadas por (,)" required>        
+        <input type="text" id="thumbnails" name="thumbnails" placeholder="URL de la imagen" required>
+        <input type="hidden" id="status" name="status" value="true" required>
+        <button type="submit" onclick="addNewProduct()">Agregar</button>
+      </form>
+    </div>
+    <div class="formulario">
+      <h2>Eliminar producto</h2>
+      <form id="delete-product-form" method="POST" action="/realtimeproducts">
+        <input type="text" id="titleDelete" name="titleDelete" placeholder="Nombre del producto" required>
+        <button type="button" onclick="deleteProduct()">Eliminar</button>
+      </form>
+    </div>
+
+  {{else}}
+    <p>No tienes permisos para ver la lista de productos</p>
+  {{/if}}
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="../js/index.js"></script>

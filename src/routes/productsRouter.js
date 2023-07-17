@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const ProductManager = require('../managers/ProductManager')
+const ProductManager = require('../../managers/ProductManager')
 const productManager = new ProductManager('products.json')
 
 // Ruta raíz GET /api/products/

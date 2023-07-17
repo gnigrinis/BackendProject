@@ -19,7 +19,7 @@ class ProductManager {
 
     const existingProduct = products.find((p) => p.code === product.code)
     if (existingProduct) {
-      throw new Error('El código del producto ya existe')
+      throw new Error(`El código del producto ya existe. Producto duplicado: ${existingProduct.title}`)
     }
 
     const id = this.getNextProductId(products)
