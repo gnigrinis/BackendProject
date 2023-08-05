@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const ProductManager = require('../../managers/ProductManager')
-const productManager = new ProductManager('products.json')
+const productManager = require('../../dao/product.manager')
 
 router.get('/', async (req,res)=>{
   let testUser={
@@ -19,6 +18,22 @@ router.get('/', async (req,res)=>{
     products
   })
 })
+
+//Chat
+router.get('/chat', (req, res) => {
+  let testUser={
+    name:"Giancarlo",
+    lastName:"Nigrinis",
+    role:"admin"
+  }
+  
+  res.render('chat',{
+    user:testUser,
+    style:'index.message.css',
+    isAdmin:testUser.role==="admin",
+  })
+})
+
 
 //Metodo Get con Web Socket
 router.get('/realtimeproducts', async (req,res)=>{

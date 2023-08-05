@@ -1,16 +1,15 @@
 const socket = io() // Conectarse al servidor de websockets
 
-const productName = document.getElementById("title").value
-const productDescription = document.getElementById("description").value
-const productCode = document.getElementById("code").value
-const productPrice = document.getElementById("price").value
-const productStock = document.getElementById("stock").value
-const productCategory = document.getElementById("category").value
-const productThumbnails = document.getElementById("thumbnails").value
-const productStatus = document.getElementById("status").value
-
 // Función asincrónica para agregar un nuevo producto utilizando socket.emit() y fetch
 async function addNewProduct() {
+  const productName = document.getElementById("title").value
+  const productDescription = document.getElementById("description").value
+  const productCode = document.getElementById("code").value
+  const productPrice = document.getElementById("price").value
+  const productStock = document.getElementById("stock").value
+  const productCategory = document.getElementById("category").value
+  const productThumbnails = document.getElementById("thumbnails").value
+  const productStatus = document.getElementById("status").value
   try {
     // Realizar la solicitud POST utilizando fetch
     const response = await fetch('/realtimeproducts', {
