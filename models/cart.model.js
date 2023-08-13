@@ -1,10 +1,12 @@
-const { Schema, model } =require('mongoose')
+const { Schema, model, ObjectId } = require('mongoose');
 
-const schema = new Schema({
-  userID: String,
-  products: { type: [String], default: []}
-})
+const cartSchema = new Schema({
+  products: [{
+    product: { type: Schema.Types.ObjectId, ref: 'products' },
+    quantity: Number
+  }]
+});
 
-const cartModel = model('carts', schema)
+const cartModel = model('carts', cartSchema);
 
-module.exports = cartModel
+module.exports = cartModel;

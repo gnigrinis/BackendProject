@@ -21,6 +21,10 @@ h1 {
     margin: 10px;
 }
 
+.cart-button{
+  width: 100px;
+}
+
 .card {
     position: relative;
     border-radius: 5px;

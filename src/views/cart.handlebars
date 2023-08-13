@@ -1,0 +1,22 @@
+{{!-- Archivo: cart.handlebars --}}
+{{#if isAdmin}}
+  <div class="container">
+    <h2>Carrito de compras</h2>
+    {{#each cart.products}}
+      <div class="cart-item">
+        <figure>
+          <img src="{{product.thumbnails}}" alt="{{product.title}}">
+        </figure>
+        <section class="details">
+          <div class="min-details">
+            <h1>{{product.title}}</h1>
+            <h1 class="price">{{product.price}}</h1>
+            <p>Cantidad: {{quantity}}</p>
+          </div>
+        </section>
+      </div>
+    {{/each}}
+  </div>
+{{else}}
+  <p>No tienes permisos para ver el carrito de compras</p>
+{{/if}}
