@@ -1,13 +1,9 @@
-const fs = require('fs').promises
 const path = require('path')
 
 const productModel =require('../models/product.model')
 
 
 class ProductManager {
-  /* constructor() {
-    this.filePath = path.join(__dirname, '..','data', 'products.json')
-  } */
 
   async addProduct(product) {
     const requiredFields = ['title', 'description', 'code', 'price', 'status' , 'stock', 'category']

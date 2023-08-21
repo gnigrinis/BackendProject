@@ -37,14 +37,14 @@ img {
 }
 
 .price {
-  color: #e91e63;
+  color: #000000;
 }
 
 /* Botones y otros estilos */
 .btn {
   display: inline-block;
   padding: 8px 16px;
-  background-color: #e91e63;
+  background-color: #00d1b2;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -54,11 +54,12 @@ img {
 }
 
 .btn:hover {
-  background-color: #c2185b;
+  box-shadow: 0 5px 10px rgba(0,0,0,.3);
+  transform: translateY(-2px);
 }
 
 /* Estilos para el mensaje de falta de permisos */
 p {
   text-align: center;
-  color: #e91e63;
+  color: #000000;
 }

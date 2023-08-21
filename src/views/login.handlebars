@@ -1,0 +1,36 @@
+<div class="column is-half is-offset-one-quarter is-narrow is-flex is-flex-direction-column	is-justify-content-center	is-align-items-center" style="height: 500px;">
+  <h1 class="title is-1">Login</h1>
+  <form action="http://localhost:8080/login" method="post">  
+    <div class="field" style="width: 300px">
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="Email" name="email" required>
+        <span class="icon is-small is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-check"></i>
+        </span>
+      </p>
+      <div class="field" style="width: 300px">
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="password" placeholder="Password" name="password" required>
+        <span class="icon is-small is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-check"></i>
+        </span>
+      </p>
+    </div>
+  </form>
+  <div class="field">
+    <p class="control">
+      <button class="button is-success">
+        Login
+      </button>
+    </p>
+  {{#if error}}
+  <h3 class="title is-5">{{error}}</h3>
+  {{/if}}
+  </div>
+</div>  

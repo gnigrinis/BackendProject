@@ -1,4 +1,4 @@
-//const socket = io()
+const socket = io()
 const messagesEl = document.querySelector('#messages')
 const inputElement = document.querySelector('.inputBox input')
 

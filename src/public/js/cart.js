@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", async (event) => {
       event.preventDefault();
       const productId = button.getAttribute("data-product-id");
-
+      console.log(productId)
       try {
         let cartId = getCartIdFromCookie();
         // Si no hay cartId en las cookies, creamos un nuevo carrito
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
           }
         }
-
+        console.log(cartId, productId)
         const response = await fetch(`http://localhost:8080/api/carts/${cartId}/product/${productId}`, {
           method: "POST",
         });

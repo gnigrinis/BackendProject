@@ -1,8 +1,7 @@
-{{!-- Archivo: products.handlebars --}}
-{{#if isAdmin}}
-  <div class="cart-button">
-    <a href="" class="btn" id="viewCartButton">Ver Carrito</a>
-  </div>  
+<div class="is-flex is-justify-content-center	">
+  <h1 class="title is-3">¡Hola, {{firstname}}! ¡Qué gusto verte!</h1>
+</div>
+{{#if isUser}}
   <div class="container">
     {{#each products}}
       <div class="card">

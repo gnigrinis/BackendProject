@@ -1,4 +1,3 @@
-const fs = require('fs').promises
 const path = require('path')
 
 const cartModel = require('../models/cart.model');

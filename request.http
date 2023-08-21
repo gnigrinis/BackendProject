@@ -1,0 +1,4 @@
+GET /
+
+Cookies: sessionId=uniddession
+Accept: application/gzip

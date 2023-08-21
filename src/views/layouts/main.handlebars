@@ -2,17 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{title}}</title>
   <link rel="stylesheet" href="/css/{{style}}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" type="text/css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" type="text/css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/css/uikit.min.css" type="text/css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="http://localhost:8080/">
+        <img src="https://i.ibb.co/jgSXbGj/logo.png" alt="logo" border="0">
+      </a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="http://localhost:8080/">
+          Home
+        </a>
+        {{#if isUser}}
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Bienvenido {{firstname}}
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="http://localhost:8080/profile">
+              Perfil
+            </a>
+            {{#if isAdmin}}
+            <span class="navbar-item">
+              Rol: Admin
+            </span>
+            {{else}}
+            <hr class="navbar-divider">
+            <span class="navbar-item">
+              Rol: Usuario
+            </span>
+            {{/if}}
+            <a class="navbar-item" href="http://localhost:8080/logout">
+              <strong>Log out</strong>
+            </a>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+      <div class="navbar-end">
+        {{#if isUser}}
+        <section class="is-flex is-justify-content-flex-end	">
+          <div class="cart-button">
+            <a href="" class="btn" id="viewCartButton">Ver Carrito</a>
+          </div>  
+        </section>
+        {{else}}
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary" href="http://localhost:8080/signup">
+              <strong>Sign up</strong>
+            </a>
+            <a class="button is-light" href="http://localhost:8080/">
+              Log in
+            </a>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </nav>
   {{{body}}}
-  
 </body>
 </html>
 <script src="/js/cart.js"></script>
