@@ -3,7 +3,7 @@ const router = express.Router()
 const productManager = require('../../dao/product.manager')
 const cartManager = require('../../dao/cart.manager')
 const userManager = require('../../dao/user.manager')
-let userSession;
+let userSession
 //Home
 router.get('/', async (req,res)=>{
   if(req.session.user){
@@ -127,7 +127,7 @@ router.get('/logout', (req, res) => {
 
   // borrar la cookie
   res.clearCookie('user')
-
+  res.clearCookie('cartID')
   req.session.destroy((err) => {
     if(err) {
       console.error('Hubo problemas para borrar la session', err)
@@ -175,15 +175,15 @@ router.get('/products', async (req, res) => {
   const userSession = req.session.user
   const userId = req.session.user._id
 
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
+  const page = parseInt(req.query.page) || 1
+  const limit = parseInt(req.query.limit) || 10
   try {
-    const products = await productManager.getProducts();
-    const cartId = cartManager.getCartIdFromCookie(req, userId);
-    const totalPages = Math.ceil(products.length / limit);
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    const paginatedProducts = products.slice(startIndex, endIndex);
+    const products = await productManager.getProducts()
+    const cartId = cartManager.getCartIdFromCookie(req, userId)
+    const totalPages = Math.ceil(products.length / limit)
+    const startIndex = (page - 1) * limit
+    const endIndex = startIndex + limit
+    const paginatedProducts = products.slice(startIndex, endIndex)
 
 
     const player={
@@ -208,20 +208,20 @@ router.get('/products', async (req, res) => {
       hasNextPage: page < totalPages,
       prevLink: page > 1 ? `/products?page=${page - 1}` : null,
       nextLink: page < totalPages ? `/products?page=${page + 1}` : null
-    });
+    })
   } catch (error) {
     res.render('login', {
     })
   }
-});
+})
 
 //carts
 router.get('/cart/:cid', async (req, res) => {
-  const { cid } = req.params;
+  const { cid } = req.params
   const userSession = req.session.user
 
   try {
-    const cart = await cartManager.getCartWithPopulatedProducts(cid);
+    const cart = await cartManager.getCartWithPopulatedProducts(cid)
 
     const player={
       title: 'Cart',
@@ -229,18 +229,18 @@ router.get('/cart/:cid', async (req, res) => {
       admin: userSession.admin
     }
     res.render('cart', {
-      user: player.firstname,
+      firstname: userSession.firstname,
       style: 'index.cart.css',
       isAdmin: player.admin === true,
       isUser: player.user === true,
       cart
-    });
+    })
   } catch (error) {
     return res.render('cart'),{
       error: "El carrito está vacio"
     }
   }
-});
+})
 
 
 

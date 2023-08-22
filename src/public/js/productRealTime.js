@@ -58,7 +58,7 @@ async function addNewProduct() {
 function deleteProduct(){
   const productTitleDelete = document.getElementById("titleDelete").value
 
-  const elementos = document.querySelectorAll('.card'); // Selecciona todos los elementos con la clase "card"
+  const elementos = document.querySelectorAll('.card') // Selecciona todos los elementos con la clase "card"
   elementos.forEach(elemento => {
     const title = elemento.querySelector('.title').textContent
     console.log(title)
