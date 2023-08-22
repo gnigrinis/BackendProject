@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
     // Ordenar descendente por precio
     sortObj = { price: -1 }
   } else {
-    sortObj = {}; // Sin ordenamiento por defecto
+    sortObj = {} // Sin ordenamiento por defecto
   }
 
   const productsPerPage = parseInt(limit)
@@ -81,7 +81,7 @@ router.get('/', async (req, res) => {
       hasNextPage,
       prevLink: hasPrevPage ? `/api/products?limit=${limit}&page=${currentPage - 1}&sort=${sort}&query=${query}` : null,
       nextLink: hasNextPage ? `/api/products?limit=${limit}&page=${currentPage + 1}&sort=${sort}&query=${query}` : null
-    });
+    })
   } catch (error) {
     res.status(500).json({ 
       status: 'error',

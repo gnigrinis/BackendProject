@@ -18,7 +18,7 @@ const appendMessageElement = (user, time, msg) => {
   // para que la altura del contenedor se actualice
   // con el nuevo nodo
   setTimeout(() => {
-    messagesEl.scrollTo(0, messages.scrollHeight);
+    messagesEl.scrollTo(0, messages.scrollHeight)
   }, 250)
 }
 
@@ -39,7 +39,7 @@ const appendUserActionElement = (user, joined) => {
   // para que la altura del contenedor se actualice
   // con el nuevo nodo
   setTimeout(() => {
-    messagesEl.scrollTo(0, messages.scrollHeight);
+    messagesEl.scrollTo(0, messages.scrollHeight)
   }, 250)
 }
 

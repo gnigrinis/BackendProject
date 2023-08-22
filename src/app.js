@@ -6,7 +6,7 @@ const viewRourter = require('../src/routes/viewsRouter')
 const usersRouter = require('../src/routes/usersRouter')
 
 //Mongoose
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 mongoose.connect("mongodb+srv://gnigrinis:P72FtiVO5nvaGCwn@cluster0.zt1wb.mongodb.net/ecommerce?retryWrites=true&w=majority")
 .then(() => console.log('se ha conectado a la base de datos'))
 .catch(() => console.log('no se ha conectado a la base de datos'))

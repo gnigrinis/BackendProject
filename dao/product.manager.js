@@ -23,12 +23,12 @@ class ProductManager {
   }
 
 async getProductById(id) {
-  const product = await productModel.findOne({ _id: id });
+  const product = await productModel.findOne({ _id: id })
 
   if (product) {
-    return product;
+    return product
   } else {
-    throw new Error('Product not found');
+    throw new Error('Product not found')
   }
 }
 
