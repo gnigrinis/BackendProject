@@ -4,6 +4,11 @@ const productsRouter = require('../src/routes/productsRouter')
 const cartsRouter = require('../src/routes/cartsRouter')
 const viewRourter = require('../src/routes/viewsRouter')
 const usersRouter = require('../src/routes/usersRouter')
+const authRouter = require('../src/routes/auth.router')
+
+//Passport
+const passport = require('passport')
+const initPassportLocal = require('../config/passport.local.config')
 
 //Mongoose
 const mongoose = require('mongoose')
@@ -76,18 +81,16 @@ app.use(session({
   })
 }))
 
-/// middleware global
-/* app.use((req, res, next) => {
+//registro de middleware de passport
+initPassportLocal()
+app.use(passport.initialize())
+app.use(passport.session())
 
-  if (req.session?.user) {
-    req.user = {
-      name: req.session.user.name,
-      role: "admin"
-    }
-  }
-
+ // middleware global
+app.use((req, res, next) => {
+  //console.log(req.session, req.user)
   next()
-}) */
+  })
 
 // Asignar el router de productos a la ruta /api/products
 app.use('/api', productsRouter)
@@ -97,6 +100,8 @@ app.use('/api', cartsRouter)
 
 // Asignar el router de users a la ruta /api/carts
 app.use('/api', usersRouter)
+
+app.use('/api', authRouter)
 
 //Plantilla Handlebars
 app.use('/', viewRourter)

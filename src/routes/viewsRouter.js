@@ -3,7 +3,10 @@ const router = express.Router()
 const productManager = require('../../dao/product.manager')
 const cartManager = require('../../dao/cart.manager')
 const userManager = require('../../dao/user.manager')
-let userSession
+const { hashPassword, isValidPassword} = require('../utils/passwords.utils')
+
+const passport = require('passport')
+
 //Home
 router.get('/', async (req,res)=>{
   if(req.session.user){
@@ -29,22 +32,37 @@ router.get('/signup', async (req,res)=>{
   })
 })
 
-//Sign Up POST
-router.post('/signup', async (req, res) => {
-  let newUser=req.body
-  let checker = await userManager.getByEmail(newUser.email)
+//Controlador de sign up POST
+const signup = async (req, res) => {
+  let user=req.body
+  //verificar correo
+  let checker = await userManager.getByEmail(user.email)
+  
   if(checker){
     return res.render('signup',{
       error: 'El email ya existe'
     })
   }
-  
+  //verificar contraseña
+  if(user.password !== user.password2){
+    return res.render('signup', {
+      error: 'Las contraseñas no coinciden'
+    })
+  }
+  //crear usuario
   try{
-    const createdUser = await userManager.create(newUser) 
+    const newUser = await userManager.create({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      age: user.age,
+      password: hashPassword(user.password)
+    })
+    
     req.session.user ={
-      firstname: createdUser.firstname,
-      id: createdUser._id,
-      ...createdUser._doc
+      firstname: newUser.firstname,
+      id: newUser._id,
+      ...newUser._doc
     }
     req.session.save((err) => {
       res.status(201).redirect('/')
@@ -54,7 +72,18 @@ router.post('/signup', async (req, res) => {
       error: 'Ocurrio un error. Intentalo más tarde'
     })
   }
-})
+}
+
+//Sign POST antiguo
+//router.post('/signup', signup)
+
+//Sign Up POST Passport
+router.post('/signup', passport.authenticate('local-signup', {
+  successRedirect: '/',
+  failureRedirect: '/signup'
+}))
+
+
 
 //login GET
 router.get('/login', async (req,res)=>{
@@ -63,8 +92,8 @@ router.get('/login', async (req,res)=>{
   })
 })
 
-//Login POST
-router.post('/login', async (req, res) => {
+//Controlador de Login POST
+const login = async (req, res) => {
   const email = req.body.email
 
   if(email == 'adminCoder@coder.com'){
@@ -97,12 +126,24 @@ router.post('/login', async (req, res) => {
   }else{
       try {
         const user = await userManager.getByEmail(email)
+        const password = req.body.password
+
         if (!user) {
           return res.render('login', { 
             error: 'El usuario no existe' 
           })
         }
-    
+        if (!password){
+          return res.render('login', { 
+            error: 'El password es requerido' 
+          })
+        }
+        if(!isValidPassword(password, user.password)){
+          return res.render('login', { 
+            error: 'Contraseña invalida' 
+          }) 
+        }
+
         req.session.user = {
           firstname: user.firstname,
           user: user.user,
@@ -120,7 +161,32 @@ router.post('/login', async (req, res) => {
       } catch(e) {
         res.render('login', { error: 'Ha ocurrido un error' })
       }
-    }})
+}}
+
+//Login POST Antiguo
+//router.post('/login', login)
+
+//Login POST Passport
+router.post('/login', passport.authenticate('local-login', {
+  failureRedirect: '/login'
+}), async (req,res) => {
+  if(!req.user) returnres.status(400).send({status:'error', error:"Credenciales invalidas"})
+  req.session.user = {
+    firstname: req.user.firstname,
+    user: req.user.user,
+    admin: req.user.admin,
+    ...req.user
+  }
+  req.session.save((err) => {
+    if(err) {
+      console.error('Error al guardar la sesión:', err)
+    }else{
+      console.log('La session se guardó exitosamente')
+    }
+  })
+  res.redirect(('/'))
+}) 
+
 
 //Log out
 router.get('/logout', (req, res) => {
@@ -142,6 +208,7 @@ router.get('/logout', (req, res) => {
 
 //Profile
 router.get('/profile', (req, res) => {
+
   if (req.session.user.admin===true||req.session.user.user===true){
     res.render('profile', {
       style:'index.css',
@@ -241,8 +308,6 @@ router.get('/cart/:cid', async (req, res) => {
     }
   }
 })
-
-
 
 //Metodo Get con Web Socket
 router.get('/realtimeproducts', async (req,res)=>{
