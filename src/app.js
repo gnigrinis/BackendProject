@@ -1,115 +1,122 @@
-(async () =>{
-//Routers
-const productsRouter = require('../src/routes/productsRouter')
-const cartsRouter = require('../src/routes/cartsRouter')
-const viewRourter = require('../src/routes/viewsRouter')
-const usersRouter = require('../src/routes/usersRouter')
-const authRouter = require('../src/routes/auth.router')
+(async () => {
+  //Routers
+  const productsRouter = require("../src/routes/productsRouter");
+  const cartsRouter = require("../src/routes/cartsRouter");
+  const viewRouter = require("../src/routes/viewsRouter");
+  const usersRouter = require("../src/routes/usersRouter");
+  const authRouter = require("../src/routes/auth.router");
+  const sessionsRouter = require("../src/routes/sessions.router");
 
-//Passport
-const passport = require('passport')
-const initPassportLocal = require('../config/passport.local.config')
+  //Passport
+  const passport = require("passport");
+  const initPassportLocal = require("../config/passport.local.config");
 
-//Mongoose
-const mongoose = require('mongoose')
-mongoose.connect("mongodb+srv://gnigrinis:P72FtiVO5nvaGCwn@cluster0.zt1wb.mongodb.net/ecommerce?retryWrites=true&w=majority")
-.then(() => console.log('se ha conectado a la base de datos'))
-.catch(() => console.log('no se ha conectado a la base de datos'))
+  //Mongoose
+  const mongoose = require("mongoose");
+  mongoose
+    .connect(
+      "mongodb+srv://gnigrinis:P72FtiVO5nvaGCwn@cluster0.zt1wb.mongodb.net/ecommerce?retryWrites=true&w=majority"
+    )
+    .then(() => console.log("se ha conectado a la base de datos"))
+    .catch(() => console.log("no se ha conectado a la base de datos"));
 
-//Express
-const express = require('express')
-const app = express()
+  //Express
+  const express = require("express");
+  const app = express();
 
-//Handlebars
-const { engine } = require('express-handlebars')
+  //Handlebars
+  const { engine } = require("express-handlebars");
 
-//Web Socket
-const {Server} = require("socket.io")
-const http =require('http')
-const server =http.createServer(app)
-const io = new Server(server)
+  //Web Socket
+  const { Server } = require("socket.io");
+  const http = require("http");
+  const server = http.createServer(app);
+  const io = new Server(server);
 
-//Socket Manager
-const socketManager = require('../src/websocket/chat.socket')
-io.on('connection', socketManager)
+  //Socket Manager
+  const socketManager = require("../src/websocket/chat.socket");
+  io.on("connection", socketManager);
 
-//Express Session
-const session = require('express-session')
+  //Express Session
+  const session = require("express-session");
 
-//File store Sessions locales
-//const fileStore = require('session-file-store')
-//const FileStore = fileStore(session)
+  //File store Sessions locales
+  //const fileStore = require('session-file-store')
+  //const FileStore = fileStore(session)
 
-//Store de Mongo
-const MongoStore = require('connect-mongo')
+  //Store de Mongo
+  const MongoStore = require("connect-mongo");
 
-//cookie parser
-const cookieParser = require('cookie-parser')
+  //cookie parser
+  const cookieParser = require("cookie-parser");
 
-//Definiendo Puerto
-const port = 8080
-server.listen(port, () => {
-  console.log(`Express Server Listening at http://localhost:${port}`)
-})
-io.on('connection', socket=>{
-  
-  console.log(`Cliente Conectado: ${socket.id}`)
-  
-  socket.on('disconnect', ()=>{
-    console.log('Cliente Desconectado')
-  })
-  
-  socket.on('addProduct', ()=>{
-    console.log('Producto agregado')
-  })
-})
+  //Definiendo Puerto
+  const port = 8080;
+  server.listen(port, () => {
+    console.log(`Express Server Listening at http://localhost:${port}`);
+  });
+  io.on("connection", (socket) => {
+    console.log(`Cliente Conectado: ${socket.id}`);
 
-// Middleware para parsear parámetros o queries en caso de usar consultas complejas.
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+    socket.on("disconnect", () => {
+      console.log("Cliente Desconectado");
+    });
 
-//Middleware de sesion
-app.use(cookieParser('esunsecreto'))
-app.use(session({
-  secret: 'esunsecreto',
-  resave: true,
-  saveUninitialized: true,
-  //store: new FileStore({ path: './sessions', ttl: 100, retries: 0})
-  store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://gnigrinis:P72FtiVO5nvaGCwn@cluster0.zt1wb.mongodb.net/ecommerce?retryWrites=true&w=majority',
-    ttl: 60 * 60
-  })
-}))
+    socket.on("addProduct", () => {
+      console.log("Producto agregado");
+    });
+  });
 
-//registro de middleware de passport
-initPassportLocal()
-app.use(passport.initialize())
-app.use(passport.session())
+  // Middleware para parsear parámetros o queries en caso de usar consultas complejas.
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
 
- // middleware global
-app.use((req, res, next) => {
-  //console.log(req.session, req.user)
-  next()
-  })
+  //Middleware de sesion
+  app.use(cookieParser("esunsecreto"));
+  app.use(
+    session({
+      secret: "esunsecreto",
+      resave: true,
+      saveUninitialized: true,
+      //store: new FileStore({ path: './sessions', ttl: 100, retries: 0})
+      store: MongoStore.create({
+        mongoUrl:
+          "mongodb+srv://gnigrinis:P72FtiVO5nvaGCwn@cluster0.zt1wb.mongodb.net/ecommerce?retryWrites=true&w=majority",
+        ttl: 60 * 60,
+      }),
+    })
+  );
 
-// Asignar el router de productos a la ruta /api/products
-app.use('/api', productsRouter)
+  //registro de middleware de passport
+  initPassportLocal();
+  app.use(passport.initialize());
+  app.use(passport.session());
 
-// Asignar el router de carritos a la ruta /api/carts
-app.use('/api', cartsRouter)
+  // middleware global
+  app.use((req, res, next) => {
+    //console.log(req.session, req.user)
+    next();
+  });
 
-// Asignar el router de users a la ruta /api/carts
-app.use('/api', usersRouter)
+  // Asignar el router de productos a la ruta /api/products
+  app.use("/api", productsRouter);
 
-app.use('/api', authRouter)
+  // Asignar el router de carritos a la ruta /api/carts
+  app.use("/api", cartsRouter);
 
-//Plantilla Handlebars
-app.use('/', viewRourter)
-app.engine('handlebars', engine())
-app.set('views',__dirname+'/views')
-app.set('view engine', 'handlebars')
+  // Asignar el router de users a la ruta /api/users
+  app.use("/api", usersRouter);
 
-//Seteando de manera estática la carpeta public
-app.use(express.static(__dirname+'/public'))
-})()
+  app.use("/api", authRouter);
 
+  app.use("/api", sessionsRouter);
+
+  //Plantilla Handlebars
+  app.use("/", viewRouter);
+  app.engine("handlebars", engine());
+  app.set("views", __dirname + "/views");
+  app.set("view engine", "handlebars");
+
+  //Seteando de manera estática la carpeta public
+  app.use(express.static(__dirname + "/public"));
+})();

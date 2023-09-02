@@ -36,6 +36,9 @@
             <a class="navbar-item" href="http://localhost:8080/profile">
               Perfil
             </a>
+            <span class="navbar-item email">
+              {{email}}
+            </span>
             {{#if isAdmin}}
             <span class="navbar-item">
               Rol: Admin
@@ -51,6 +54,9 @@
             </a>
           </div>
         </div>
+        <a class="navbar-item" href="http://localhost:8080/api/sessions/current">
+          Current view
+        </a>
         {{/if}}
       </div>
     </div>

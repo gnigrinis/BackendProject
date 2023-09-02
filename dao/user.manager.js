@@ -1,60 +1,51 @@
-const userModel = require('../models/user.model')
+const userModel = require("../models/user.model");
 
 class UserManager {
-
   async getAll() {
-    return userModel.find({}).lean()
+    return userModel.find({}).lean();
   }
 
   getById(id) {
-    return userModel.find({ _id: id }).lean()
+    return userModel.find({ _id: id }).lean();
   }
 
   getByEmail(email) {
-    return userModel.findOne({ email }).lean()
+    return userModel.findOne({ email }).lean();
   }
 
   create(user) {
-    return userModel.create(user)
+    return userModel.create(user);
   }
 
   async save(id, user) {
-    const existing = await this.getById(id)
+    const existing = await this.getById(id);
 
     if (!existing) {
-      return
+      return;
     }
 
-    const {
-      email,
-      firstname,
-      lastname,
-      username,
-      gender,
-      age
-    } = user
+    const { email, firstname, lastname, username, age } = user;
 
-    existing.email = email
-    existing.firstname = firstname
-    existing.lastname = lastname
-    existing.username = username
-    existing.gender = gender
-    existing.age = age
+    existing.email = email;
+    existing.firstname = firstname;
+    existing.lastname = lastname;
+    existing.username = username;
+    existing.age = age;
 
-    await existing.updateOne({ _id, existing: _id }, existing)
+    await existing.updateOne({ _id, existing: _id }, existing);
   }
 
   async delete(id) {
-    const existing = await this.getById(id)
+    const existing = await this.getById(id);
 
     if (!existing) {
-      return
+      return;
     }
 
     /// operadores
 
-    await userModel.deleteOne({ _id: id })
+    await userModel.deleteOne({ _id: id });
   }
 }
 
-module.exports = new UserManager()
+module.exports = new UserManager();
