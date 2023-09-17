@@ -5,10 +5,7 @@ const github = require("../config/passport.github");
 const jwt = require("../config/passport.jwt.config");
 const cartManager = require("../dao/cart.manager");
 const userManager = require("../dao/user.manager");
-const {
-  hashPassword,
-  isValidPassword,
-} = require("../src/utils/passwords.utils");
+const { hashPassword, isValidPassword } = require("../utils/passwords.utils");
 
 const LocalStrategy = local.Strategy;
 

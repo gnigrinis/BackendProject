@@ -1,8 +1,4 @@
-const { Router } = require("express");
-const router = Router();
-
-//GET api/sessions/current
-router.get("/sessions/current", async (req, res) => {
+const currentUser = async (req, res) => {
   // Verifica si el usuario está autenticado
   if (req.isAuthenticated()) {
     // Accede a la información del usuario actual
@@ -16,6 +12,6 @@ router.get("/sessions/current", async (req, res) => {
   } else {
     res.status(401).json({ message: "Usuario no autenticado" });
   }
-});
+};
 
-module.exports = router;
+module.exports = currentUser;

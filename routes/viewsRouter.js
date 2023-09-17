@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const productManager = require("../../dao/product.manager");
-const cartManager = require("../../dao/cart.manager");
-const userManager = require("../../dao/user.manager");
+const productManager = require("../dao/product.manager");
+const cartManager = require("../dao/cart.manager");
+const userManager = require("../dao/user.manager");
 const { hashPassword, isValidPassword } = require("../utils/passwords.utils");
 
 const passport = require("passport");

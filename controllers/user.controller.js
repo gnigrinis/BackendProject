@@ -1,10 +1,7 @@
-const { Router } = require("express");
-const userManager = require("../../dao/user.manager");
-const cartManager = require("../../dao/cart.manager");
+const userManager = require("../dao/user.manager");
+const cartManager = require("../dao/cart.manager");
 
-const router = Router();
-
-router.post("/signup", async (req, res) => {
+const signup = async (req, res) => {
   const cartID = await cartManager.createCart();
   newUser = {
     cart: cartID,
@@ -16,6 +13,6 @@ router.post("/signup", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
+};
 
-module.exports = router;
+module.exports = signup;

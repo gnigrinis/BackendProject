@@ -1,22 +1,40 @@
 (async () => {
+  const path = require("path");
+  const { Command } = require("commander");
+  const program = new Command();
+  program.option("-e, --env <env>", "Entorno de ejecucion", "production");
+  program.parse();
+
+  const { env } = program.opts();
+
+  //Variables de entorno
+  require("dotenv").config({
+    path: path.join(
+      __dirname,
+      env == "development" ? ".env.development" : ".env"
+    ),
+  });
+
+  const config = require("./config/config");
+
+  console.log(config);
+
   //Routers
-  const productsRouter = require("../src/routes/productsRouter");
-  const cartsRouter = require("../src/routes/cartsRouter");
-  const viewRouter = require("../src/routes/viewsRouter");
-  const usersRouter = require("../src/routes/usersRouter");
-  const authRouter = require("../src/routes/auth.router");
-  const sessionsRouter = require("../src/routes/sessions.router");
+  const productsRouter = require("./routes/productsRouter");
+  const cartsRouter = require("./routes/cartsRouter");
+  const viewRouter = require("./routes/viewsRouter");
+  const usersRouter = require("./routes/usersRouter");
+  const authRouter = require("./routes/auth.router");
+  const sessionsRouter = require("./routes/sessions.router");
 
   //Passport
   const passport = require("passport");
-  const initPassportLocal = require("../config/passport.local.config");
+  const initPassportLocal = require("./config/passport.local.config");
 
   //Mongoose
   const mongoose = require("mongoose");
   mongoose
-    .connect(
-      "mongodb+srv://gnigrinis:P72FtiVO5nvaGCwn@cluster0.zt1wb.mongodb.net/ecommerce?retryWrites=true&w=majority"
-    )
+    .connect(config.MONGO_URL)
     .then(() => console.log("se ha conectado a la base de datos"))
     .catch(() => console.log("no se ha conectado a la base de datos"));
 
@@ -34,7 +52,7 @@
   const io = new Server(server);
 
   //Socket Manager
-  const socketManager = require("../src/websocket/chat.socket");
+  const socketManager = require("./websocket/chat.socket");
   io.on("connection", socketManager);
 
   //Express Session
@@ -51,7 +69,7 @@
   const cookieParser = require("cookie-parser");
 
   //Definiendo Puerto
-  const port = 8080;
+  const port = config.PORT;
   server.listen(port, () => {
     console.log(`Express Server Listening at http://localhost:${port}`);
   });
@@ -80,8 +98,7 @@
       saveUninitialized: true,
       //store: new FileStore({ path: './sessions', ttl: 100, retries: 0})
       store: MongoStore.create({
-        mongoUrl:
-          "mongodb+srv://gnigrinis:P72FtiVO5nvaGCwn@cluster0.zt1wb.mongodb.net/ecommerce?retryWrites=true&w=majority",
+        mongoUrl: config.MONGO_URL,
         ttl: 60 * 60,
       }),
     })

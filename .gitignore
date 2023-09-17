@@ -1,2 +1,4 @@
 *.ini
+*.env
+*.env.development
 node_modules

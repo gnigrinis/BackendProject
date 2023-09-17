@@ -1,10 +1,6 @@
-const express = require("express");
-const router = express.Router();
-const cartManager = require("../../dao/cart.manager");
+const cartManager = require("../dao/cart.manager");
 
-// Ruta raíz POST /api/carts/
-// Crear un nuevo carrito
-router.post("/carts", async (req, res) => {
+const createCart = async (req, res) => {
   try {
     const createdCart = await cartManager.createCart();
     const cartID = createdCart._id.toString();
@@ -15,11 +11,9 @@ router.post("/carts", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
-});
+};
 
-// Ruta POST /api/carts/:cid/product/:pid
-// Agregar un producto al carrito
-router.post("/carts/:cid/product/:pid", async (req, res) => {
+const addProduct = async (req, res) => {
   const { cid, pid } = req.params;
 
   try {
@@ -28,11 +22,9 @@ router.post("/carts/:cid/product/:pid", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
+};
 
-// Ruta DELETE /api/carts/:cid/products/:pid
-// Eliminar un producto del carrito
-router.delete("/carts/:cid/products/:pid", async (req, res) => {
+const deleteProduct = async (req, res) => {
   const { cid, pid } = req.params;
 
   try {
@@ -41,11 +33,9 @@ router.delete("/carts/:cid/products/:pid", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
+};
 
-// Ruta DELETE /api/carts/:cid
-// Eliminar todos los productos del carrito
-router.delete("/carts/:cid", async (req, res) => {
+const deleteAll = async (req, res) => {
   const { cid } = req.params;
 
   try {
@@ -54,11 +44,9 @@ router.delete("/carts/:cid", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
+};
 
-// Ruta PUT /api/carts/:cid
-// Actualizar todo el carrito
-router.put("/carts/:cid", async (req, res) => {
+const updateCart = async (req, res) => {
   const { cid } = req.params;
   const updatedProducts = req.body;
 
@@ -68,11 +56,9 @@ router.put("/carts/:cid", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
+};
 
-// Ruta PUT /api/carts/:cid/products/:pid
-// Actualizar un producto del carrito
-router.put("/carts/:cid/products/:pid", async (req, res) => {
+const updateProductCart = async (req, res) => {
   const { cid, pid } = req.params;
   const { quantity } = req.body;
 
@@ -82,11 +68,9 @@ router.put("/carts/:cid/products/:pid", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
+};
 
-// Ruta GET /api/cart/:cid
-// Traer el carrito con productos populados
-router.get("/cart/:cid", async (req, res) => {
+const getPopulateCart = async (req, res) => {
   const { cid } = req.params;
 
   try {
@@ -95,11 +79,9 @@ router.get("/cart/:cid", async (req, res) => {
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
-});
+};
 
-// Ruta GET /api/carts/:email
-// Obtener el _id del carrito mediante el correo electrónico
-router.get("/carts/:email", async (req, res) => {
+const getCartByEmail = async (req, res) => {
   const { email } = req.params;
   try {
     const user = await cartManager.getCartIdByEmail(email);
@@ -107,6 +89,15 @@ router.get("/carts/:email", async (req, res) => {
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  createCart,
+  addProduct,
+  deleteProduct,
+  deleteAll,
+  updateCart,
+  updateProductCart,
+  getPopulateCart,
+  getCartByEmail,
+};
