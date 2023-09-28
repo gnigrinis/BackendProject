@@ -1,18 +1,20 @@
-<div class="uk-container uk-width-1-1 uk-padding-remove uk-margin-remove">
-  <div class="uk-width-1-1 uk-margin-remove uk-align-center uk-text-break uk-padding-small uk-height-1-1">
-    <div class="chat uk-flex-stretch uk-height-1-1 uk-margin-remove" uk-grid>
-        <div id="messages" class="uk-child-width-1-1 uk-width-1-1 uk-padding-remove uk-margin-remove" uk-grid>
-        </div>
-        <div class="uk-child-width-1-1 uk-width-1-1 inputBox uk-padding-remove uk-margin-remove" uk-grid>
-          <input class="uk-input" type="text" placeholder="" aria-label="Input">
-        </div>
+{{#if isUser}}
+  <div class="uk-container uk-width-1-1 uk-padding-remove uk-margin-remove">
+    <div class="uk-width-1-1 uk-margin-remove uk-align-center uk-text-break uk-padding-small uk-height-1-1">
+      <div class="chat uk-flex-stretch uk-height-1-1 uk-margin-remove" uk-grid>
+          <div id="messages" class="uk-child-width-1-1 uk-width-1-1 uk-padding-remove uk-margin-remove" uk-grid>
+          </div>
+          <div class="uk-child-width-1-1 uk-width-1-1 inputBox uk-padding-remove uk-margin-remove" uk-grid>
+            <input class="uk-input" type="text" placeholder="" aria-label="Input">
+          </div>
+      </div>
     </div>
   </div>
-</div>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit-icons.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/chat.js"></script>
-  
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit-icons.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chat.js"></script>
+{{else}}
+  <p>Solo los usuarios pueden acceder al chat</p>
+{{/if}}

@@ -1,5 +1,6 @@
 const userManager = require("../dao/user.manager");
 const cartManager = require("../dao/cart.manager");
+const userModel = require("../models/user.model");
 
 const signup = async (req, res) => {
   const cartID = await cartManager.createCart();
@@ -15,4 +16,4 @@ const signup = async (req, res) => {
   }
 };
 
-module.exports = signup;
+module.exports = { signup };

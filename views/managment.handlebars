@@ -1,0 +1,56 @@
+<div class="is-flex is-justify-content-center">
+  <h1 class="title is-3">¡Hola, {{firstname}}! ¡Qué gusto verte!</h1>
+</div>
+{{#if isAdmin}}
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-3">Gestión de Productos</h1>
+      <!-- Tabla para mostrar los productos existentes -->
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Codigo SKU</th>
+            <th>Precio ($)</th>
+            <th>Cantidad</th>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each products}}
+          <tr>
+            <td>{{this.title}}</td>
+            <td>{{this.code}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.stock}}</td>
+            <td>{{this._id}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <div class="formulario">
+  <h2 class="title is-4">Agregar nuevo producto</h2>
+  <form id="new-product-form">
+    <input type="text" id="title" name="title" placeholder="Nombre del producto" required>
+    <input type="text" id="description" name="description" placeholder="Descripción del producto" required>
+    <input type="text" id="code" name="code" placeholder="Codigo del producto" required>
+    <input type="number" id="price" name="price" placeholder="Precio del producto" required>
+    <input type="number" id="stock" name="stock" placeholder="Cantidad" required>
+    <input type="text" id="category" name="category" placeholder="Categorías separadas por (,)" required>        
+    <input type="text" id="thumbnails" name="thumbnails" placeholder="URL de la imagen" required>
+    <input type="hidden" id="status" name="status" value="true" required>
+    <button type="submit" data-product-id="{{this._id}}" class="button is-primary" onclick="addProduct()">Crear Producto</button>
+  </form>
+  <div class="formulario">
+    <h2 class="title is-4">Eliminar producto</h2>
+    <form id="delete-product-form" method="POST" action="/managment">
+      <input type="text" id="idDelete" name="idDelete" placeholder="Id del producto" required>
+      <button type="button" onclick="deleteProduct()">Eliminar</button>
+    </form>
+  </div>
+{{else}}
+  <p>No tienes permisos para ver la lista de productos</p>
+{{/if}}
+<script src="/js/managment.js"></script>

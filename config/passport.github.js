@@ -1,6 +1,7 @@
 const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = require("./config");
 const GitHubStrategy = require("passport-github2"); // importamos la estrategia de github
 const userManager = require("../dao/user.manager");
+const cartManager = require("../dao/cart.manager");
 
 const CLIENT_ID = GITHUB_CLIENT_ID;
 const CLIENT_SECRET = GITHUB_CLIENT_SECRET;
@@ -14,7 +15,7 @@ const auth = async (accessToken, refreshToken, profile, done) => {
 
   try {
     // en el argumento profile, viene toda la informacion que sacamos de github
-    console.log(profile);
+    //console.log(profile);
 
     // si el email es null es porque ell usuario debe de tener su email privado
     const {
@@ -30,7 +31,6 @@ const auth = async (accessToken, refreshToken, profile, done) => {
 
     // buscamos al usuario en la db
     let user = await userManager.getByEmail(email);
-
     if (!user) {
       // si el usuario no existe, lo creamos
       if (name === null) {
@@ -45,10 +45,11 @@ const auth = async (accessToken, refreshToken, profile, done) => {
         email,
         age: 18,
         gender: "Male",
+        cart: await cartManager.createCart(email),
       });
 
       // re asignamos la variable user con el documento de _user
-
+      console.log(_user);
       user = _user._doc;
     }
 

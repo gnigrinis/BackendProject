@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.cookie = `cartID=${cartId}`;
         window.location.href = `/cart/${cartId}`;
       } else {
-        alert("Hubo un problema con el carrito");
+        //TODO
+        //obtener
+
         return;
       }
     }
@@ -97,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("Producto agregado al carrito exitosamente");
           // Puedes redirigir o actualizar la página según sea necesario
         } else {
-          alert("Hubo un problema al agregar el producto al carrito");
+          alert("No tienes permiso para agregar productos");
         }
       } catch (error) {
         console.error("Error al realizar la solicitud:", error);

@@ -26,6 +26,7 @@
   const usersRouter = require("./routes/usersRouter");
   const authRouter = require("./routes/auth.router");
   const sessionsRouter = require("./routes/sessions.router");
+  const notificationsRoutes = require ("./routes/notifications.router")
 
   //Passport
   const passport = require("passport");
@@ -127,6 +128,9 @@
   app.use("/api", authRouter);
 
   app.use("/api", sessionsRouter);
+
+  //Router de Mail
+  app.use("/api", notificationsRoutes)
 
   //Plantilla Handlebars
   app.use("/", viewRouter);

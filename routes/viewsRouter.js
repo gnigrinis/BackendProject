@@ -4,6 +4,7 @@ const productManager = require("../dao/product.manager");
 const cartManager = require("../dao/cart.manager");
 const userManager = require("../dao/user.manager");
 const { hashPassword, isValidPassword } = require("../utils/passwords.utils");
+const auth = require("../utils/auth.middleware");
 
 const passport = require("passport");
 
@@ -225,17 +226,10 @@ router.get("/profile", (req, res) => {
 });
 
 //Chat
-router.get("/chat", (req, res) => {
-  let testUser = {
-    name: "Giancarlo",
-    lastName: "Nigrinis",
-    role: "admin",
-  };
-
+router.get("/chat", auth.authorizeUser, (req, res) => {
   res.render("chat", {
-    user: testUser,
     style: "index.message.css",
-    isAdmin: testUser.role === "admin",
+    isUser: req.session.user.role === "user",
   });
 });
 
@@ -245,7 +239,7 @@ router.get("/products", async (req, res) => {
   const userId = req.session.user._id;
 
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
+  const limit = parseInt(req.query.limit) || 15;
   try {
     const products = await productManager.getProducts();
     const cartId = cartManager.getCartIdFromCookie(req, userId);
@@ -258,24 +252,43 @@ router.get("/products", async (req, res) => {
       title: "Products",
       role: userSession.role,
     };
-
-    res.render("products", {
-      firstname: userSession.firstname,
-      email: userSession.email,
-      style: "index.css",
-      isAdmin: player.role === "admin",
-      isUser: player.role === "user",
-      products: paginatedProducts,
-      totalPages,
-      prevPage: page > 1 ? page - 1 : null,
-      nextPage: page < totalPages ? page + 1 : null,
-      page,
-      cartId,
-      hasPrevPage: page > 1,
-      hasNextPage: page < totalPages,
-      prevLink: page > 1 ? `/products?page=${page - 1}` : null,
-      nextLink: page < totalPages ? `/products?page=${page + 1}` : null,
-    });
+    if (player.role === "admin") {
+      res.render("products", {
+        firstname: userSession.firstname,
+        email: userSession.email,
+        style: "index.css",
+        isAdmin: true,
+        isUser: true,
+        products: paginatedProducts,
+        totalPages,
+        prevPage: page > 1 ? page - 1 : null,
+        nextPage: page < totalPages ? page + 1 : null,
+        page,
+        cartId,
+        hasPrevPage: page > 1,
+        hasNextPage: page < totalPages,
+        prevLink: page > 1 ? `/products?page=${page - 1}` : null,
+        nextLink: page < totalPages ? `/products?page=${page + 1}` : null,
+      });
+    } else {
+      res.render("products", {
+        firstname: userSession.firstname,
+        email: userSession.email,
+        style: "index.css",
+        isAdmin: false,
+        isUser: true,
+        products: paginatedProducts,
+        totalPages,
+        prevPage: page > 1 ? page - 1 : null,
+        nextPage: page < totalPages ? page + 1 : null,
+        page,
+        cartId,
+        hasPrevPage: page > 1,
+        hasNextPage: page < totalPages,
+        prevLink: page > 1 ? `/products?page=${page - 1}` : null,
+        nextLink: page < totalPages ? `/products?page=${page + 1}` : null,
+      });
+    }
   } catch (error) {
     res.render("login", {});
   }
@@ -285,6 +298,7 @@ router.get("/products", async (req, res) => {
 router.get("/cart/:cid", async (req, res) => {
   const { cid } = req.params;
   const userSession = req.session.user;
+  console.log(userSession);
   try {
     const cart = await cartManager.getCartWithPopulatedProducts(cid);
 
@@ -303,7 +317,7 @@ router.get("/cart/:cid", async (req, res) => {
     return (
       res.render("cart"),
       {
-        error: "El carrito está vacio",
+        error: "No tienes permisos para ver el carrito de compras",
       }
     );
   }
@@ -335,6 +349,31 @@ router.post("/realTimeProducts", async (req, res) => {
     res.status(201).redirect("/realTimeProducts");
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+});
+
+//Gestor de Productos
+router.get("/managment", async (req, res) => {
+  const userSession = req.session.user;
+  const products = await productManager.getProducts();
+
+  const player = {
+    title: "Home",
+    firstname: userSession.firstname,
+    role: userSession.role,
+    email: userSession.email,
+  };
+  if (player.role === "admin") {
+    res.render("managment", {
+      firstname: userSession.firstname,
+      email: userSession.email,
+      style: "index.css",
+      isAdmin: true,
+      isUser: true,
+      products,
+    });
+  } else {
+    res.redirect("/products");
   }
 });
 

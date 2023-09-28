@@ -3,6 +3,7 @@ const currentUser = async (req, res) => {
   if (req.isAuthenticated()) {
     // Accede a la información del usuario actual
     const currentUser = req.user;
+    console.log(req.user);
     res.render("current", {
       style: "index.css",
       users: currentUser,
