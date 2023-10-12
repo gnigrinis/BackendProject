@@ -5,7 +5,7 @@ const productModel = require("../models/product.model")
 const getAll = async (req, res, next) => {
   try {
     const { search, max, min, limit } = req.query
-    console.log(`Searching products for ${search} max ${max} and min ${min}`)
+    logger.debug(`Searching products for ${search} max ${max} and min ${min}`)
 
     const products = await productManager.getProducts()
 
@@ -98,7 +98,7 @@ const deleteById = async (req, res, next) => {
 
 const getBase = async (req, res) => {
   const { limit = 10, page = 1, sort, query } = req.query
-  console.log(limit, page, sort, query)
+  logger.debug(limit, page, sort, query)
   const filters = {}
 
   if (query) {

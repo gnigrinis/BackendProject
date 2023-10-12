@@ -1,17 +1,17 @@
 const socket = io()
-const messagesEl = document.querySelector('#messages')
-const inputElement = document.querySelector('.inputBox input')
-
-console.log(new Date())
+const messagesEl = document.querySelector("#messages")
+const inputElement = document.querySelector(".inputBox input")
+const logger = require("../../logger")
+logger.info(new Date())
 
 messagesEl.innerHTML = ""
-// messagesEl.appendChild(NUEVO ELEMENTO) 
+// messagesEl.appendChild(NUEVO ELEMENTO)
 
 const appendMessageElement = (user, time, msg) => {
-  const div = document.createElement('div')
-  div.classList.add('uk-width-1-1')
+  const div = document.createElement("div")
+  div.classList.add("uk-width-1-1")
   div.innerHTML = `<span class="uk-label">${user} [${time}]</span> <span class="uk-margin-left">${msg}</span>`
-  
+
   messagesEl.appendChild(div)
 
   // encierro en un set timeout
@@ -23,13 +23,13 @@ const appendMessageElement = (user, time, msg) => {
 }
 
 const appendUserActionElement = (user, joined) => {
-  const div = document.createElement('div')
-  div.classList.add('uk-width-1-1')
-  div.classList.add('uk-flex')
-  div.classList.add('joined')
+  const div = document.createElement("div")
+  div.classList.add("uk-width-1-1")
+  div.classList.add("uk-flex")
+  div.classList.add("joined")
 
-  const type = joined ? 'success' : 'danger'
-  const action = joined ? 'unio' : 'salio'
+  const type = joined ? "success" : "danger"
+  const action = joined ? "unio" : "salio"
 
   div.innerHTML = `<span class="uk-label uk-label-${type}">${user} se ${action}</span>`
 
@@ -48,32 +48,30 @@ const appendUserActionElement = (user, joined) => {
 let username = null
 let currentMessages = []
 
-socket.on('chat-messages', (messagesList) => {
+socket.on("chat-messages", (messagesList) => {
   currentMessages = messagesList
 })
 
 Swal.fire({
-  title: 'Ingresa tu nombre',
-  input: 'text',
+  title: "Ingresa tu nombre",
+  input: "text",
   inputAttributes: {
-    autocapitalize: 'off'
+    autocapitalize: "off",
   },
-  confirmButtonText: 'Enviar',
+  confirmButtonText: "Enviar",
   preConfirm: (username) => {
     // agregar logica
     if (!username) {
-      Swal.showValidationMessage(
-        `El usuario no puede estar en blanco`
-      )
+      Swal.showValidationMessage(`El usuario no puede estar en blanco`)
       return
     }
-    
+
     return username
   },
-  allowOutsideClick: false
+  allowOutsideClick: false,
 }).then(({ value }) => {
   username = value
-  socket.emit('user', { user: username, action: true })
+  socket.emit("user", { user: username, action: true })
 
   // aqui voy a renderizar los mensajes actuales del server
 
@@ -82,18 +80,17 @@ Swal.fire({
     appendMessageElement(user, datetime, text)
   }
 
-  socket.on('chat-message', ({ user, datetime, text }) => {
+  socket.on("chat-message", ({ user, datetime, text }) => {
     // renderizar el mensaje
     appendMessageElement(user, datetime, text)
   })
 
-  socket.on('user', ({ user, action }) => {
+  socket.on("user", ({ user, action }) => {
     appendUserActionElement(user, action)
   })
 
-
-  inputElement.addEventListener('keyup', ({ key, target }) => {
-    if (key !== 'Enter') {
+  inputElement.addEventListener("keyup", ({ key, target }) => {
+    if (key !== "Enter") {
       return
     }
 
@@ -106,10 +103,14 @@ Swal.fire({
     // enviar el mensaje al socket
     const fecha = new Date()
 
-    const msg = { user: username, datetime: fecha.toLocaleTimeString('en-US'), text: value }
+    const msg = {
+      user: username,
+      datetime: fecha.toLocaleTimeString("en-US"),
+      text: value,
+    }
 
-    socket.emit('chat-message', msg)
+    socket.emit("chat-message", msg)
     target.value = ""
-    appendMessageElement(username, fecha.toLocaleTimeString('en-US'), value)
+    appendMessageElement(username, fecha.toLocaleTimeString("en-US"), value)
   })
 })

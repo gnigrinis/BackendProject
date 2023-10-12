@@ -1,5 +1,5 @@
-const nodemailer = require("nodemailer");
-const {mail} = require("../config/config");
+const nodemailer = require("nodemailer")
+const { mail } = require("../config/config")
 class MailSender {
   constructor() {
     //Creo transporte o conexión
@@ -10,7 +10,7 @@ class MailSender {
         user: mail.GMAIL_ADDRESS,
         pass: mail.GMAIL_PWD,
       },
-    });
+    })
   }
 
   async send(to, body) {
@@ -19,9 +19,8 @@ class MailSender {
       subject: "mensaje de prueba",
       to,
       html: body,
-    });
-    console.log(response);
+    })
   }
 }
 
-module.exports = new MailSender();
+module.exports = new MailSender()

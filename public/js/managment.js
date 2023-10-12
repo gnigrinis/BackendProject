@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
   deleteProduct.addEventListener("click", async (event) => {
     event.preventDefault()
     const productId = document.querySelector("#idDelete").value
-    console.log(typeof productId)
     try {
       const response = await fetch(`/api/products/${productId}`, {
         method: "DELETE",

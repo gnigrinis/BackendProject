@@ -1,13 +1,14 @@
-const { Command } = require("commander");
+const { Command } = require("commander")
+const logger = require("./logger")
 
-const program = new Command();
+const program = new Command()
 
 program
   .option("-p <port>", "Puerto de escucha", 8080)
   .option("--mode <mode>", "Modo de ejecucion", "production")
-  .requiredOption("-u <user>", "Usuario del proceso", null);
+  .requiredOption("-u <user>", "Usuario del proceso", null)
 
-program.parse();
+program.parse()
 
-console.log(program.opts());
-console.log(program.args);
+logger.info(program.opts())
+logger.info(program.args)

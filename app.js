@@ -28,6 +28,10 @@
   const sessionsRouter = require("./routes/sessions.router")
   const notificationsRoutes = require("./routes/notifications.router")
 
+  //Middleware logger
+  const loggerMiddleware = require("./utils/logger.midddleware")
+  const logger = require("./logger")
+
   //Passport
   const passport = require("passport")
   const initPassportLocal = require("./config/passport.local.config")
@@ -36,8 +40,8 @@
   const mongoose = require("mongoose")
   mongoose
     .connect(config.MONGO_URL)
-    .then(() => console.log("se ha conectado a la base de datos"))
-    .catch(() => console.log("no se ha conectado a la base de datos"))
+    .then(() => logger.warn("se ha conectado a la base de datos"))
+    .catch(() => logger.error("no se ha conectado a la base de datos"))
 
   //Express
   const express = require("express")
@@ -72,19 +76,22 @@
   //Definiendo Puerto
   const port = config.PORT
   server.listen(port, () => {
-    console.log(`Express Server Listening at http://localhost:${port}`)
+    logger.info(`Express Server Listening at http://localhost:${port}`)
   })
   io.on("connection", (socket) => {
-    console.log(`Cliente Conectado: ${socket.id}`)
+    logger.debug(`Cliente Conectado: ${socket.id}`)
 
     socket.on("disconnect", () => {
-      console.log("Cliente Desconectado")
+      logger.debug("Cliente Desconectado")
     })
 
     socket.on("addProduct", () => {
-      console.log("Producto agregado")
+      logger.info("Producto agregado")
     })
   })
+
+  //Logger
+  app.use(loggerMiddleware)
 
   // Middleware para parsear parámetros o queries en caso de usar consultas complejas.
   app.use(express.urlencoded({ extended: true }))
@@ -112,7 +119,7 @@
 
   // middleware global
   app.use((req, res, next) => {
-    //console.log(req.session, req.user)
+    //logger.info(req.session, req.user)
     next()
   })
 
@@ -134,7 +141,7 @@
 
   //Midlavware de errores
   app.use((err, req, res, next) => {
-    console.log(err.message)
+    logger.error(err.message)
 
     res.send({
       success: false,
