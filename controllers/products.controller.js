@@ -1,6 +1,7 @@
 const productManager = require("../dao/product.manager")
 const { CustomError, ErrorType } = require("../errors/custom.error")
 const productModel = require("../models/product.model")
+const logger = require("../logger")
 
 const getAll = async (req, res, next) => {
   try {
@@ -8,7 +9,6 @@ const getAll = async (req, res, next) => {
     logger.debug(`Searching products for ${search} max ${max} and min ${min}`)
 
     const products = await productManager.getProducts()
-
     let filtrados = products
     if (search) {
       filtrados = filtrados.filter(

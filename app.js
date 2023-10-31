@@ -47,6 +47,22 @@
   const express = require("express")
   const app = express()
 
+  //Swagger
+  const swaggerUiExpress = require("swagger-ui-express")
+  const swaggerJsDoc = require("swagger-jsdoc")
+  const specs = swaggerJsDoc({
+    definition: {
+      openapi: "3.0.1",
+      info: {
+        title: "My Buy API",
+        description: "Documentación para My Buy API",
+      },
+    },
+    apis: [`./doc/**/*.yaml`],
+  })
+
+  app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+
   //Handlebars
   const { engine } = require("express-handlebars")
 

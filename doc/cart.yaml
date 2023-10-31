@@ -1,0 +1,123 @@
+paths:
+  /carts/:
+    post:
+      summary: Create a new cart
+      description: Creates a new cart.
+      responses:
+        201:
+          description: Cart created successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Cart created successfully
+        500:
+          description: Internal server error
+  /carts/{cid}:
+    get:
+      summary: Get products of a cart
+      description: Retrieves the products of a specific cart.
+      parameters:
+        - name: cid
+          in: path
+          description: The ID of the cart.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              cart:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 1234567890
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        product:
+                          type: string
+                          example: 0987654321
+                        quantity:
+                          type: number
+                          example: 2
+        404:
+          description: Cart not found
+    delete:
+      summary: Clear a cart
+      description: Clears all products from a specific cart.
+      parameters:
+        - name: cid
+          in: path
+          description: The ID of the cart.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Cart cleared successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Cart cleared successfully
+        400:
+          description: Bad request
+  /carts/{cid}/product/{pid}:
+    post:
+      summary: Add a product to a cart
+      description: Adds a product to a specific cart.
+      parameters:
+        - name: cid
+          in: path
+          description: The ID of the cart.
+          required: true
+          type: string
+        - name: pid
+          in: path
+          description: The ID of the product to be added.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Product added to cart successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Product added to cart successfully
+        400:
+          description: Bad request
+  /carts/{cid}/products/{pid}:
+    delete:
+      summary: Remove a product from a cart
+      description: Removes a specific product from a specific cart.
+      parameters:
+        - name: cid
+          in: path
+          description: The ID of the cart.
+          required: true
+          type: string
+        - name: pid
+          in: path
+          description: The ID of the product to be removed.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Product removed from cart successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Product removed from cart successfully
+        400:
+          description: Bad request

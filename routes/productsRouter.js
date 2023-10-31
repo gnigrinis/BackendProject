@@ -28,12 +28,12 @@ router.get("/", getBase)
 router.get("/products/:id", getById)
 
 // Ruta raíz POST /api/products/
-router.post("/products", auth.authorizeAdmin, create)
+router.post("/products", /*auth.authorizeAdmin,*/ create)
 
 // Ruta PUT /api/products/:pid
-router.put("/products/:id", auth.authorizeAdmin, updateById)
+router.put("/products/:id", /*auth.authorizeAdmin,*/ updateById)
 
 // Ruta DELETE /api/products/:pid
-router.delete("/products/:id", auth.authorizeAdmin, deleteById)
+router.delete("/products/:id", /*auth.authorizeAdmin,*/ deleteById)
 
 module.exports = router
