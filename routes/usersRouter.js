@@ -1,8 +1,22 @@
-const { Router } = require("express");
-const router = Router();
+const { Router } = require("express")
+const router = Router()
 
-const { signup } = require("../controllers/user.controller");
+const {
+  signup,
+  getAllUsers,
+  deleteInactiveUsers,
+  deleteUser,
+  changeUserRole,
+} = require("../controllers/user.controller")
 
-router.post("/signup", signup);
+router.post("/signup", signup)
 
-module.exports = router;
+router.post("/changeRole/:uid", changeUserRole)
+
+router.get("/getAllUsers", getAllUsers)
+
+router.delete("/deleteInactiveUsers", deleteInactiveUsers)
+
+router.delete("/deleteUser/:uid", deleteUser)
+
+module.exports = router

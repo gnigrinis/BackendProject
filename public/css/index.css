@@ -94,3 +94,12 @@ form{
   flex-direction: column;
 }
 
+.formularioUser {
+  display: flex;
+  align-items: center;
+  min-height: 200px;
+  justify-content: center;
+  font-family: 'Ubuntu', sans-serif;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}

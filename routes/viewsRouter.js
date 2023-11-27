@@ -6,7 +6,7 @@ const userManager = require("../dao/user.manager")
 const { hashPassword, isValidPassword } = require("../utils/passwords.utils")
 const auth = require("../utils/auth.middleware")
 const logger = require("../logger")
-
+const userModel = require("../models/user.model")
 const passport = require("passport")
 
 //Home
@@ -185,6 +185,14 @@ router.post(
       cart: req.user.cart,
       ...req.user,
     }
+    //Actualizar lastConecction
+    try {
+      const userId = req.user._id
+      await userModel.findByIdAndUpdate(userId, { lastConecction: new Date() })
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+
     req.session.save((err) => {
       if (err) {
         logger.error("Error al guardar la sesión:", err)
@@ -197,7 +205,7 @@ router.post(
 )
 
 //Log out
-router.get("/logout", (req, res) => {
+router.get("/logout", async (req, res) => {
   // borrar la cookie
   res.clearCookie("user")
   res.clearCookie("cartID")
@@ -371,6 +379,30 @@ router.get("/managment", async (req, res) => {
       isAdmin: true,
       isUser: true,
       products,
+    })
+  } else {
+    res.redirect("/products")
+  }
+})
+
+//Gestor de Usuarios
+router.get("/userManagment", async (req, res) => {
+  const userSession = req.session.user
+  const users = await userManager.getUsers()
+  const player = {
+    title: "Home",
+    firstname: userSession.firstname,
+    role: userSession.role,
+    email: userSession.email,
+  }
+  if (player.role === "admin") {
+    res.render("userManagment", {
+      firstname: userSession.firstname,
+      email: userSession.email,
+      style: "index.css",
+      isAdmin: true,
+      isUser: true,
+      users,
     })
   } else {
     res.redirect("/products")

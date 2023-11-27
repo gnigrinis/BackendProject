@@ -1,0 +1,52 @@
+<div class="is-flex is-justify-content-center">
+  <h1 class="title is-3">¡Hola, {{firstname}}! ¡Qué gusto verte!</h1>
+</div>
+{{#if isAdmin}}
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-3">Gestión de Productos</h1>
+      <!-- Tabla para mostrar los productos existentes -->
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Role ($)</th>
+            <th>Última Conección</th>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each users}}
+          <tr>
+            <td>{{this.firstname}}</td>
+            <td>{{this.lastname}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.role}}</td>
+            <td>{{this.lastConecction}}</td>
+            <td>{{this._id}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <div class="formularioUser">
+    <h2 class="title is-4">Cambiar Role de Usuario</h2>
+    <form id="change-role-form">
+      <input type="text" id="userId" name="userId" placeholder="Id del usuario" required>
+      <button type="button" onclick="updateUserButton()">Cambiar a Administrador</button>
+    </form>
+  </div>
+    <div class="formularioUser">
+    <h2 class="title is-4">Eliminar Usuario</h2>
+    <form id="delete-user-form">
+      <input type="text" id="duserId" name="duserId" placeholder="Id del usuario" required>
+      <button type="button" onclick="deleteUserButton()">Eliminar Usuario</button>
+    </form>
+  </div>
+{{else}}
+  <p>No tienes permisos para realizar gestión de usuarios</p>
+{{/if}}
+<script src="/js/userManagment.js"></script>

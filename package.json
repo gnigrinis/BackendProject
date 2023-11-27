@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app.js -e production",
     "dev": "node app.js -e development",
-    "test": "node ./tests/suma.spec.js"
+    "test": "mocha ./tests/integration.test.js"
   },
   "repository": {
     "type": "git",
@@ -50,6 +50,9 @@
     "winston": "^3.11.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   }
 }
