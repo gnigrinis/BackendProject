@@ -54,29 +54,6 @@ class ProductManager {
   async deleteProduct(id) {
     await productModel.deleteOne({ _id: id })
   }
-
-  /*   async getProductsFromFile() {
-    try {
-      const fileContent = await fs.readFile(this.filePath, 'utf-8')
-      return JSON.parse(fileContent)
-    } catch (error) {
-      return []
-    }
-  } */
-
-  /*   async saveProductsToFile(products) {
-    await fs.writeFile(this.filePath, JSON.stringify(products, null, 2))
-  }
-
-    getNextProductId(products) {
-    if (products.length === 0) {
-      return 1
-    }
-
-    const ids = products.map((p) => p.id)
-    const maxId = Math.max(...ids)
-    return maxId + 1
-  }  */
 }
 
 module.exports = new ProductManager()

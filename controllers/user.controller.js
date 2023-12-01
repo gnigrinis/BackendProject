@@ -31,7 +31,7 @@ const getAllUsers = async (req, res) => {
 
 const deleteInactiveUsers = async (req, res) => {
   try {
-    const inactiveThreshold = new Date(Date.now() - 30 * 60 * 1000) // Últimos 30 minutos
+    const inactiveThreshold = new Date(Date.now() - 2880 * 60 * 1000) // Últimos 2 días
     const inactiveUsers = await userModel.find({
       lastConecction: { $lt: inactiveThreshold },
     })

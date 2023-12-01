@@ -1,6 +1,8 @@
 const productManager = require("../dao/product.manager")
 const { CustomError, ErrorType } = require("../errors/custom.error")
 const productModel = require("../models/product.model")
+const userModel = require("../models/user.model")
+const MailSender = require("../services/mail.sender.service")
 const logger = require("../logger")
 
 const getAll = async (req, res, next) => {
@@ -63,8 +65,33 @@ const getById = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const product = req.body
-    await productManager.addProduct(product)
+    const {
+      title,
+      description,
+      code,
+      price,
+      status,
+      stock,
+      category,
+      thumbnails,
+    } = req.body
+    // Propietario opcional, si se proporciona en el cuerpo de la solicitud
+    const { userType, email } = req.body.owner || {}
+
+    const productData = {
+      title,
+      description,
+      code,
+      price,
+      status,
+      stock,
+      category,
+      thumbnails,
+      // Agregar el propietario si se proporciona en la solicitud, de lo contrario, será null
+      owner: userType && email ? { userType, email } : null,
+    }
+
+    await productManager.addProduct(productData)
     res.status(201).json({ message: "Product added successfully" })
   } catch (error) {
     //res.status(400).json({ error: error.message })
@@ -87,7 +114,16 @@ const updateById = async (req, res, next) => {
 const deleteById = async (req, res, next) => {
   try {
     const { id } = req.params
+    const product = await productManager.getProductById(id)
+
+    if (product.owner.userType === "premium") {
+      const userEmail = product.owner.email
+      const messageBody = `Estimado usuario premium, el producto "${product.title}" ha sido eliminado.`
+      await MailSender.send(userEmail, messageBody)
+    }
+
     await productManager.deleteProduct(id)
+
     res.status(200).send("Product deleted successfully")
   } catch {
     //res.status(404).send("Product not found")
