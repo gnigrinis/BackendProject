@@ -19,7 +19,12 @@
     {{/each}}
   </div>
   <div class="is-flex is-justify-content-center	">
-    <a href="#" class="button is-danger clean-cart" data-product-id="{{this._id}}">Vaciar carrito</a>
+    <div class="is-flex is-justify-content-center">
+      <a href="" class="button is-danger clean-cart" data-product-id="{{this._id}}">Vaciar carrito</a>
+    </div>
+      <div class="is-flex is-justify-content-center	">
+      <a href="http://localhost:8080/success" class="button is-success buy-cart" data-product-id="{{this._id}}">Comprar</a>
+    </div>
   </div>
 {{else}}
   <p>No tienes permisos para ver el carrito de compras</p>

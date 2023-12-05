@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const addToCartButtons = document.querySelectorAll(".add-to-cart")
   const viewCartButton = document.getElementById("viewCartButton")
   const cleanCart = document.querySelectorAll(".clean-cart")
+  const buyCart = document.querySelectorAll(".buy-cart")
   const email = document.querySelector(".email").textContent.trim()
 
   //Funcion para ver el carrito
@@ -47,6 +48,29 @@ document.addEventListener("DOMContentLoaded", () => {
           alert(
             "Hubo un problema al vaciar el carrito, por favor intente más tarde."
           )
+          return
+        }
+      }
+    })
+  })
+
+  //Funcion para comprar el carrito
+  buyCart.forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      event.preventDefault()
+      let cartId = getCartIdFromCookie()
+      if (cartId) {
+        const response = await fetch(`http://localhost:8080/order/${cartId}`, {
+          method: "GET",
+        })
+        if (response.ok) {
+          alert("Orden de compra creada")
+          window.open("http://localhost:8080/success")
+        } else {
+          alert(
+            "Hubo un problema al generar la orden de compra, por favor intente más tarde."
+          )
+          location.reload()
           return
         }
       }

@@ -7,6 +7,8 @@ const { hashPassword, isValidPassword } = require("../utils/passwords.utils")
 const auth = require("../utils/auth.middleware")
 const logger = require("../logger")
 const userModel = require("../models/user.model")
+const purchaseOrderModel = require("../models/po.model")
+const cartModel = require("../models/cart.model")
 const passport = require("passport")
 
 //Home
@@ -407,6 +409,52 @@ router.get("/userManagment", async (req, res) => {
   } else {
     res.redirect("/products")
   }
+})
+
+router.get("/order/:cartId", async (req, res) => {
+  const { cartId } = req.params
+
+  try {
+    const cart = await cartModel.findById(cartId).populate("products.product")
+    if (!cart) {
+      return res.status(404).send("Carrito no encontrado")
+    }
+    let total = 0
+
+    // Calcular el total de la orden basado en los productos en el carrito
+    for (const product of cart.products) {
+      total += product.product.price * product.quantity
+    }
+
+    const { products } = cart
+    const orderData = {
+      user: cartId,
+      code: cartId,
+      total,
+      products: products.map((product) => ({
+        product: product.product._id, // ID del producto en el carrito
+        qty: product.quantity, // Cantidad del producto en el carrito
+      })),
+      estimatedDelivery: 7,
+    }
+
+    // Crea una nueva orden en la base de datos
+    const newOrder = await purchaseOrderModel.create(orderData)
+
+    // Vacia carrito luego de generar la orden de compra
+    await cartManager.clearCart(cartId)
+
+    console.log(newOrder)
+
+    res.status(201).json({ order: newOrder })
+  } catch (error) {
+    console.error("Error al crear la orden de compra:", error)
+    res.status(500).send("Error al crear la orden de compra")
+  }
+})
+
+router.get("/success", (req, res) => {
+  res.render("success")
 })
 
 //Test para logger

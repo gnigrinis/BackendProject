@@ -116,18 +116,16 @@ const deleteById = async (req, res, next) => {
     const { id } = req.params
     const product = await productManager.getProductById(id)
 
-    if (product.owner.userType === "premium") {
+    try {
       const userEmail = product.owner.email
       const messageBody = `Estimado usuario premium, el producto "${product.title}" ha sido eliminado.`
       await MailSender.send(userEmail, messageBody)
+    } catch (error) {
+      next(new CustomError("No pertenece a un usuario premium", ErrorType.DB))
     }
-
     await productManager.deleteProduct(id)
-
     res.status(200).send("Product deleted successfully")
   } catch {
-    //res.status(404).send("Product not found")
-    //return
     next(new CustomError("No se pudo borrar producto", ErrorType.DB))
   }
 }
