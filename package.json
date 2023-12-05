@@ -4,8 +4,8 @@
   "description": "backend project for Coder House",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js -e production",
-    "dev": "node app.js -e development",
+    "start": "node app.js -e production",
+    "dev": "nodemon app.js -e production",
     "test": "mocha ./tests/integration.test.js"
   },
   "repository": {
